@@ -1,0 +1,38 @@
+[Unit]
+Description=Guardian backend (Flask + IndoBERTweet/BiLSTM)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=guardian
+WorkingDirectory=/opt/guardian/backend
+
+# .env memuat GEMINI_API_KEY, FIREBASE_CREDENTIALS_PATH, MODEL_FILE, dsb.
+# File ini TIDAK ada di repo; disalin manual ke server (lihat DEPLOY.md).
+EnvironmentFile=/opt/guardian/backend/.env
+
+# Cache HuggingFace dipakai bersama lintas restart supaya IndoBERTweet
+# tidak diunduh ulang (~400 MB) setiap kali layanan dinyalakan.
+Environment=HF_HOME=/opt/guardian/hf-cache
+
+ExecStart=/opt/guardian/venv/bin/gunicorn -c gunicorn.conf.py "app:create_app()"
+
+Restart=always
+RestartSec=5
+
+# Model perlu waktu memuat saat start (PRELOAD_MODEL=true).
+TimeoutStartSec=300
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=guardian
+
+# Pengerasan dasar.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+
+[Install]
+WantedBy=multi-user.target

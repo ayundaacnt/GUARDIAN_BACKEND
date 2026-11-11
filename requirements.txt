@@ -1,0 +1,21 @@
+# PERHATIAN untuk instalasi di Linux (server):
+#
+# Pasang torch LEBIH DULU dari index CPU-only, baru file ini:
+#
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+#   pip install -r requirements.txt
+#
+# Wheel `torch` default di PyPI untuk Linux membawa dependensi CUDA ~2,5 GB
+# yang tidak pernah dipakai Guardian (inferensi berjalan di CPU). Urutan di
+# atas membuatnya ~200 MB. Di Windows wheel PyPI sudah CPU-only.
+
+flask>=3.1,<4
+gunicorn>=23.0,<24
+firebase-admin>=6.6,<7
+google-genai>=1.0,<2
+python-dotenv>=1.0,<2
+flask-limiter>=3.8,<4
+pydantic>=2.10,<3
+torch>=2.2
+transformers>=4.40,<5
+emoji>=2.10

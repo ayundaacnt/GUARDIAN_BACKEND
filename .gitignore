@@ -1,0 +1,31 @@
+# Rahasia — JANGAN PERNAH di-commit
+.env
+*.env
+!.env.example
+serviceAccount*.json
+*credential*.json
+*-firebase-adminsdk-*.json
+
+# Bobot model (ratusan MB, disalin manual ke server)
+models/*.pt
+models/*.pth
+models/*.bin
+models/*.safetensors
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.pytest_cache/
+
+# Log & sementara
+*.log
+latency_log.txt
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
